@@ -215,7 +215,7 @@ def main():
                         joints, cam_t, scaled_focal_length, img_size[n]
                     )
                     global_orient = (
-                        out["pred_mano_params"]["global_orient"].cpu().numpy()[0][0],
+                        out["pred_mano_params"]["global_orient"].cpu().numpy()[n][0],
                     )
 
                     output_json = [
