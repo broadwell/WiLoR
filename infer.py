@@ -144,8 +144,14 @@ def main():
 
             detections = detector(img_cv2, conf=0.3, verbose=False)[0]
             bboxes = []
+            confidence_values = []
             is_right = []
             for det in detections:
+                # Some attributes of the detection are only accessible if
+                # exported this way (???)
+                det_df = det.to_df()
+                confidence_values.append(det_df["confidence"].item())
+
                 Bbox = det.boxes.data.cpu().detach().squeeze().numpy()
                 is_right.append(det.boxes.cls.cpu().detach().squeeze().item())
                 bboxes.append(Bbox[:4].tolist())
@@ -201,6 +207,8 @@ def main():
 
                     personid = batch["personid"].cpu()[n].item()
 
+                    bbox = bboxes[n]
+
                     verts = out["pred_vertices"][n].detach().cpu().numpy()
                     joints = out["pred_keypoints_3d"][n].detach().cpu().numpy()
 
@@ -222,6 +230,8 @@ def main():
                         {
                             "frame": frameno + 1,
                             "personid": personid,
+                            "bbox": bbox.tolist(),
+                            "confidence": confidence_values[n],
                             "right": int(is_right),
                             "pred_cam": pred_cam.cpu().numpy().tolist()[0],
                             "cam_t": cam_t.tolist(),
