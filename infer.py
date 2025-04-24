@@ -230,7 +230,7 @@ def main():
                         {
                             "frame": frameno + 1,
                             "personid": personid,
-                            "bbox": bbox.tolist(),
+                            "bbox": bbox,
                             "confidence": confidence_values[n],
                             "right": int(is_right),
                             "pred_cam": pred_cam.cpu().numpy().tolist()[0],
