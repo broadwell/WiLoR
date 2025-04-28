@@ -209,16 +209,16 @@ def main():
 
                     bbox = bboxes[n]
 
-                    verts = out["pred_vertices"][n].detach().cpu().numpy()
+                    # verts = out["pred_vertices"][n].detach().cpu().numpy()
                     joints = out["pred_keypoints_3d"][n].detach().cpu().numpy()
 
                     is_right = batch["right"][n].cpu().numpy()
-                    verts[:, 0] = (2 * is_right - 1) * verts[:, 0]
+                    # verts[:, 0] = (2 * is_right - 1) * verts[:, 0]
                     joints[:, 0] = (2 * is_right - 1) * joints[:, 0]
                     cam_t = pred_cam_t_full[n]
-                    verts_2d = project_full_img(
-                        verts, cam_t, scaled_focal_length, img_size[n]
-                    )
+                    # verts_2d = project_full_img(
+                    #    verts, cam_t, scaled_focal_length, img_size[n]
+                    # )
                     kpts_2d = project_full_img(
                         joints, cam_t, scaled_focal_length, img_size[n]
                     )
@@ -235,8 +235,8 @@ def main():
                             "right": int(is_right),
                             "pred_cam": pred_cam.cpu().numpy().tolist()[0],
                             "cam_t": cam_t.tolist(),
-                            "verts_3d": verts.tolist(),
-                            "verts_2d": verts_2d.cpu().numpy().tolist(),
+                            # "verts_3d": verts.tolist(),
+                            # "verts_2d": verts_2d.cpu().numpy().tolist(),
                             "kpts_3d": joints.tolist(),
                             "kpts_2d": kpts_2d.cpu().numpy().tolist(),
                             "global_orient": np.array(global_orient).tolist()[0],
